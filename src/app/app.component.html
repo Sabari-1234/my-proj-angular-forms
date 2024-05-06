@@ -1,0 +1,91 @@
+<div class="container-fluid">
+  <form  #form1="ngForm"  (submit)="onsubmit()">
+      {{form1.value|json}}
+
+      {{form1.form.valid}}
+ <hr>
+      {{users|json}}
+
+    <div>
+
+      <label for="name" class="form-label">name</label>
+
+      <input type="text" #name="ngModel" [class.is-invalid]="name.invalid && name.touched" class="form-control" name="user" [(ngModel)]="users.user" required>
+      <!-- {{name.className}} -->
+
+      <!-- {{name.touched}} -->
+
+      <small [class.d-none]="name.valid || name.untouched">enter name please</small>
+    </div>
+
+   
+
+    <div>
+
+      <label for="email" class="form-label" >email</label>
+
+      <input type="email" #email class="form-control" id="email" name="email" [(ngModel)]="users.email">
+  {{email.className}}
+    </div>
+
+    <div>
+
+      <label for="phone" class="form-label">phone</label>
+
+      <input type="tel" #phone="ngModel" pattern="^\d{10}$" class="form-control" [class.is-invalid]="phone.invalid && phone.touched" id="phone" name="phone" [(ngModel)]="users.phone" required="">
+      <div *ngIf="phone.errors && phone.touched">
+          <small *ngIf="phone.errors?.['required']">phone number required</small>
+
+          <small *ngIf="phone.errors?.['pattern']">phone number must be 10 digit</small>
+      </div>
+     
+    </div>
+   <div>
+    <select required (blur)="validate(interested.value)" (change)="validate(interested.value)"  #interested="ngModel" [class.is-invalid]="interested.touched && hasError" name="interests" id="" class="form-select" [(ngModel)]="users.interests">
+      <option value="default" >select option</option>
+      <option value={{interest}} *ngFor="let interest of interests" >{{interest}}</option>
+  </select>
+  
+  <small [class.d-none]="interested.untouched || !hasError">please select value</small>
+
+
+
+   </div>
+    
+   <div class="form-check">
+    <input type="radio" class="form-check-input" name="interest" value="angular" [(ngModel)]="users.interest">
+
+    <label for="" class="form-check-label">angular</label>
+
+   </div>
+   <div class="form-check">
+    <input type="radio" class="form-check-input" name="interest" value="react" [(ngModel)]="users.interest">
+
+    <label for="" class="form-check-label">react</label>
+
+   </div>
+
+   <div class="form-check">
+
+   <input type="checkbox" class="form-check-input" name="accept" [(ngModel)]="users.accept">
+
+   <label for="" class="form-check-label" > accept</label>
+
+   </div>
+
+
+   <!-- <div ngModelGroup="address">
+
+    <div >
+        <label for="">postal</label>
+        <input type="text" name="postal" ngModel>
+    </div>
+    <div >
+      <label for="">door no</label>
+      <input type="text" name="door" ngModel>
+  </div>
+   </div> -->
+   <button type="submit" [disabled]="!form1.form.valid || hasError">submit</button>
+  </form>
+
+</div>
